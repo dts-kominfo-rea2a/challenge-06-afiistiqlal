@@ -51,7 +51,8 @@ const bacaData = (fnCallback) => {
       return hasil;
     });
   });
-  fnCallback(null, hasil);
+  // fnCallback(null, hasil);
+  return hasil;
 };
 
 // ! JANGAN DIMODIFIKASI
