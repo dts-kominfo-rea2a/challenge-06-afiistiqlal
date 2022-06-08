@@ -19,40 +19,40 @@ let modifyFile3 = (val) => {
 
 // TODO: Kerjakan bacaData
 // gunakan variabel file1, file2, dan file3
-const fnCallback = (err, data) => {
-  if (err) {
-    return console.log(err);
-  }
-  return data;
-}
-
-const files = [file1, file2, file3];
 const bacaData = (fnCallback) => {
   let dataFile = "";
   const hasil = [];
-  files.forEach(element => {
-    fs.readFile(element, 'utf8', (err, data) => {
-      if (err) {
+  fs.readFile(file1, 'utf8', (err, data)=>{
+    if(err){
+      return(fnCallback("Error! Something goes wrong!", null));
+    }
+    data = JSON.parse(data);
+    dataFile = data.message;
+    const arrHasil = dataFile.split(" ");
+    hasil.push(arrHasil[1]);
+    
+    fs.readFile(file2, 'utf8', (err, data)=>{
+      if(err){
         return(fnCallback("Error! Something goes wrong!", null));
       }
-
       data = JSON.parse(data);
-      if (element == file1) {
-        dataFile = data.message;
-      }
-      if (element == file2) {
-        dataFile = data[0].message;
-      }
-      if (element == file3) {
-        dataFile = data[0].data.message;
-      }
+      dataFile = data[0].message;
       const arrHasil = dataFile.split(" ");
       hasil.push(arrHasil[1]);
-      return hasil;
+
+      fs.readFile(file3, 'utf8', (err, data)=>{
+        if(err){
+          return(fnCallback("Error! Something goes wrong!", null));
+        }
+        data = JSON.parse(data);
+        dataFile = data[0].data.message;
+        const arrHasil = dataFile.split(" ");
+        hasil.push(arrHasil[1]);
+
+        return fnCallback(null, hasil);
+      });
     });
   });
-  // fnCallback(null, hasil);
-  return hasil;
 };
 
 // ! JANGAN DIMODIFIKASI
